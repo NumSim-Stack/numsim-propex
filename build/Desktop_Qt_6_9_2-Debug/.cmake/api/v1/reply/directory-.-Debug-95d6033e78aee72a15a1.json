@@ -1,0 +1,102 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 64,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 73,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 90,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 96,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"libnumsim-propex.a"
+			],
+			"targetId" : "numsim-propex::@6890427a1f51a3e7e1df",
+			"targetIndex" : 32,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "include/numsim-propex",
+			"paths" : 
+			[
+				"include/propex/ownership_policies.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "share/numsim-propex/cmake",
+			"paths" : 
+			[
+				"build/Desktop_Qt_6_9_2-Debug/numsim-propexConfig.cmake",
+				"build/Desktop_Qt_6_9_2-Debug/numsim-propexConfigVersion.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "share/numsim-propex/cmake",
+			"exportName" : "numsim-propex_Targets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "numsim-propex::@6890427a1f51a3e7e1df",
+					"index" : 32
+				}
+			],
+			"paths" : 
+			[
+				"CMakeFiles/Export/126c709b65ae087f7e050ea2c4858d22/numsim-propexTargets.cmake"
+			],
+			"type" : "export"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

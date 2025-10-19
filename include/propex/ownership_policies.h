@@ -1,3 +1,6 @@
+#ifndef OWNERSHIP_POLICIES_H
+#define OWNERSHIP_POLICIES_H
+
 #include <stdexcept>
 #include <memory>
 
@@ -41,3 +44,5 @@ struct by_atomic {
     void set(T v) { value.store(v, std::memory_order_relaxed); }
 };
 }
+
+#endif // OWNERSHIP_POLICIES_H
