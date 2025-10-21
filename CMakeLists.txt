@@ -27,12 +27,14 @@ message(STATUS "Building v${${PROJECT_NAME}_VERSION}")
 # ============
 set(${PROJECT_NAME}_HEADER
     include/propex/ownership_policies.h
-    )
+)
 
 # Add the library
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_HEADER}
     include/propex/ownership_policies.h
-    )
+    include/propex/propex_registry.h
+    include/propex/key_traits.h
+)
 
 # Explicitly set the linker language
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
@@ -54,7 +56,6 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 option(${PROJECT_NAME}_INSTALL_LIBRARY "Enable installing of ${PROJECT_NAME} library" ON)
 option(BUILD_EXAMPLES "Build ${PROJECT_NAME} examples" ON)
 option(BUILD_TESTS "Build ${PROJECT_NAME} test suite" ON)
-option(BUILD_BENCHMARK "Build ${PROJECT_NAME} benchmarks" OFF)
 option(DOWNLOAD_GTEST "Download and build GTest" OFF)
 option(DOWNLOAD_GBENCHMARK "Download and build Google Benchmark" OFF)
 
@@ -114,15 +115,7 @@ if(BUILD_TESTS)
     FetchContent_MakeAvailable(googletest)
     include(GoogleTest)
     # Uncomment when tests exist
-    #add_subdirectory(tests)
-endif()
-
-if(BUILD_BENCHMARK)
-    if(DOWNLOAD_GBENCHMARK)
-        # Add logic to download and build Google Benchmark here
-    endif()
-    # Uncomment when benchmarks exist
-    # add_subdirectory(benchmark)
+    add_subdirectory(tests)
 endif()
 
 if(BUILD_EXAMPLES)
