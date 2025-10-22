@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "key_traits_test.h"
 #include "registry_test.h"
+#include "property_view_test.h"
 
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);

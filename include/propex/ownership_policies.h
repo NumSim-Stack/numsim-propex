@@ -156,6 +156,92 @@ struct by_atomic {
     void set(T v) noexcept { value.store(v, std::memory_order_relaxed); }
 };
 
+template<class Ownership>
+struct returns_reference : std::true_type{};
+
+template<typename T>
+struct returns_reference<by_atomic<T>> : std::false_type{};
+
+template<class Ownership>
+concept returns_reference_v = returns_reference<Ownership>::value;
+
+/**
+ * @brief Primary template — undefined, specialized per storage type.
+ */
+template<class Storage>
+struct make_storage;
+
+/**
+ * @brief Generic fallback for value-like storages (by_value, by_atomic).
+ */
+template<template<class> class Ownership, class T>
+struct make_storage<Ownership<T>> {
+    static constexpr inline auto make(const T& v) {
+        return Ownership<T>(v);
+    }
+};
+
+/**
+ * @brief Specialized factory for `by_shared<T>`.
+ */
+template<class T>
+struct make_storage<by_shared<T>> {
+    static inline auto make(std::shared_ptr<T>&& sp) noexcept {
+        return by_shared<T>(std::move(sp));
+    }
+    static inline auto make(std::shared_ptr<T>const& sp) noexcept {
+        return by_shared<T>(sp);
+    }
+    static inline auto make(const T& v) {
+        return by_shared<T>(std::make_shared<T>(v));
+    }
+};
+
+/**
+ * @brief Specialized factory for `by_reference<T>`.
+ */
+template<class T>
+struct make_storage<by_reference<T>> {
+    static constexpr inline auto make(T& v) noexcept {
+        return by_reference<T>(v);
+    }
+};
+
+template<class Storage>
+struct storage_traits;
+
+// by_value<T>
+template<class T>
+struct storage_traits<by_value<T>> {
+    static constexpr inline const T& get(const by_value<T>& s) noexcept { return s.get(); }
+    template<class U>
+    static constexpr inline void set(by_value<T>& s, U&& v) noexcept { s.get() = std::forward<U>(v); }
+};
+
+// by_reference<T>
+template<class T>
+struct storage_traits<by_reference<T>> {
+    static inline const T& get(const by_reference<T>& s) { return s.get(); }
+    template<class U>
+    static inline void set(by_reference<T>& s, U&& v) { s.get() = std::forward<U>(v); }
+};
+
+// by_shared<T>
+template<class T>
+struct storage_traits<by_shared<T>> {
+    static inline const T& get(const by_shared<T>& s) { return s.get(); }
+    template<class U>
+    static inline void set(by_shared<T>& s, U&& v) { s.get() = std::forward<U>(v); }
+    static inline void set(by_shared<T>& s, std::shared_ptr<T>&& sp) noexcept { s.ptr = std::move(sp); }
+};
+
+// by_atomic<T>
+template<class T>
+struct storage_traits<by_atomic<T>> {
+    static constexpr inline T get(const by_atomic<T>& s) noexcept { return s.value.load(std::memory_order_relaxed); }
+    template<class U>
+    static constexpr inline void set(by_atomic<T>& s, U&& v) noexcept { s.set(static_cast<T>(std::forward<U>(v))); }
+};
 } // namespace ownership
 
 #endif // OWNERSHIP_POLICIES_H

@@ -34,6 +34,9 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_HEADER}
     include/propex/ownership_policies.h
     include/propex/propex_registry.h
     include/propex/key_traits.h
+    include/propex/property_view.h
+    include/propex/propex_fwd.h
+    include/propex/propex_node.h
 )
 
 # Explicitly set the linker language

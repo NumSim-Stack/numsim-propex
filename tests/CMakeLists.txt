@@ -38,4 +38,5 @@ target_sources(numsim_propex_test
   PRIVATE
     key_traits_test.h
     registry_test.h
+    property_view_test.h
 )
